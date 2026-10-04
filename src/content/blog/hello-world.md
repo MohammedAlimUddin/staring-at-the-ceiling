@@ -28,3 +28,4 @@ Here are the terms I set for this project:
 > "Sometimes the most productive thing you can do is lie flat on your back and watch the quiet beam of a streetlight across the ceiling."
 
 If you stumbled here, feel free to linger. And if a thought resonates with you, consider taking a moment tonight to put down the screen and just look up at your own ceiling for a while.
+

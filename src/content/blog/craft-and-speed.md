@@ -26,3 +26,4 @@ It doesn't try to impress you with 50-megabyte hero videos or complex animations
 When designing this site, that was the gold standard. We utilized **Astro** and native **View Transitions** so moving between thoughts feels smooth and continuous, like flipping pages in a well-bound notebook.
 
 When the machinery of the web gets out of the way, all that remains is the thought itself.
+
