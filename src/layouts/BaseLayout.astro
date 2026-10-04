@@ -1,0 +1,96 @@
+---
+// BaseLayout.astro
+import { ClientRouter } from 'astro:transitions';
+import { getCollection } from 'astro:content';
+import Sidebar from '../components/Sidebar.astro';
+import Header from '../components/Header.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'staring at the ceiling',
+  description = 'Personal thoughts, notes, and unhurried reflections.',
+  image = '/favicon.svg'
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Fetch all posts for the sidebar navigation tree
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const sidebarPosts = sortedPosts.map((p) => ({
+  slug: p.slug,
+  title: p.data.title,
+  category: p.data.category
+}));
+
+// Aggregate categories
+const categoryMap = new Map<string, number>();
+sortedPosts.forEach((p) => {
+  const cat = p.data.category || 'General';
+  categoryMap.set(cat, (categoryMap.get(cat) || 0) + 1);
+});
+const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ name, count }));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+
+    <ClientRouter />
+
+    <!-- Theme inline check to avoid flash of wrong theme -->
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('color-theme')) {
+          return localStorage.getItem('color-theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-[#fafafa] dark:bg-[#090a0d] text-zinc-800 dark:text-zinc-200 antialiased min-h-screen">
+    <!-- Mobile Header -->
+    <Header />
+
+    <!-- Desktop Sidebar -->
+    <Sidebar currentPath={pathname} categories={categories} posts={sidebarPosts} />
+
+    <!-- Main Content Area -->
+    <div class="md:pl-72 flex flex-col min-h-screen transition-all">
+      <main class="flex-1 max-w-5xl w-full mx-auto px-5 sm:px-8 py-8 md:py-12">
+        <slot />
+      </main>
+
+      <!-- Minimal Footer -->
+      <footer class="border-t border-zinc-200/80 dark:border-zinc-800/80 py-8 px-6 text-center text-xs font-mono text-zinc-400 dark:text-zinc-500">
+        <p>staring at the ceiling &mdash; raw human thoughts.</p>
+      </footer>
+    </div>
+  </body>
+</html>

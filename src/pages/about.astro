@@ -1,0 +1,51 @@
+---
+// about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About | staring at the ceiling" description="The philosophy behind this quiet personal corner of the web.">
+  <article class="max-w-2xl space-y-8">
+    <header class="pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
+      <h1 class="text-3xl font-sans font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        About this space
+      </h1>
+      <p class="text-sm font-mono text-zinc-400 dark:text-zinc-500 mt-2">
+        Why it exists & the principles behind it
+      </p>
+    </header>
+
+    <div class="prose max-w-none">
+      <h2>The Ceiling</h2>
+      <p>
+        Everyone knows the posture: lying on your back, gaze fixed upward at the blank plaster, 
+        watching shadows shift as thoughts wander through ideas that rarely fit neatly into conversations.
+      </p>
+      <p>
+        This blog is a personal ledger of those moments.
+      </p>
+
+      <h2>The Principle of Unpolished Human Words</h2>
+      <p>
+        We live in an era where text is continuously smoothed, summarized, and sanitized by automated tools.
+        Every email sounds alike. Every blog post follows the same five-part SEO template.
+      </p>
+      <p>
+        <strong>Here, things are different:</strong>
+      </p>
+      <ul>
+        <li>Every word is written directly by human hands.</li>
+        <li>Grammatical imperfections, odd cadence, and colloquialisms are preserved deliberately.</li>
+        <li>No automated tools are permitted to rewrite, embellish, or smooth the prose.</li>
+      </ul>
+
+      <blockquote>
+        Perfection is sterile. The irregularities in human writing are where personality actually lives.
+      </blockquote>
+
+      <h2>Format & Architecture</h2>
+      <p>
+        This site is statically generated, hosted on GitHub Pages, and designed with a nod to minimalist technical documentation—fast, high-contrast, and respectful of your attention.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

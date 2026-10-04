@@ -1,0 +1,57 @@
+---
+// PostCard.astro
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  category: string;
+  tags?: string[];
+}
+
+const { slug, title, description, pubDate, category, tags = [] } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+}).format(pubDate);
+---
+
+<article class="group relative py-6 border-b border-zinc-200/80 dark:border-zinc-800/80 last:border-b-0 transition-colors">
+  <div class="flex flex-col space-y-2">
+    <!-- Meta info -->
+    <div class="flex items-center space-x-3 text-xs font-mono text-zinc-400 dark:text-zinc-500">
+      <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+      <span>·</span>
+      <span class="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800/70 text-zinc-600 dark:text-zinc-300">
+        {category}
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h2 class="text-xl font-sans font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+      <a href={`${baseUrl}/blog/${slug}`} class="focus:outline-none">
+        <span class="absolute inset-0" aria-hidden="true"></span>
+        {title}
+      </a>
+    </h2>
+
+    <!-- Excerpt / description -->
+    <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-2">
+      {description}
+    </p>
+
+    <!-- Tags (if any) -->
+    {tags.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 pt-1">
+        {tags.map((tag) => (
+          <span class="text-[11px] font-mono text-zinc-400 dark:text-zinc-500">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+</article>

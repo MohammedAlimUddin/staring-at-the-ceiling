@@ -1,0 +1,45 @@
+---
+// Header.astro (Mobile Navigation Bar)
+import ThemeToggle from './ThemeToggle.astro';
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<header class="md:hidden sticky top-0 z-30 w-full bg-white/90 dark:bg-[#0c0d10]/90 backdrop-blur border-b border-zinc-200 dark:border-zinc-800/80 px-4 py-3 flex items-center justify-between">
+  <div class="flex items-center space-x-3">
+    <button
+      id="open-sidebar"
+      type="button"
+      class="p-1.5 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+      aria-label="Open navigation sidebar"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <a href={`${baseUrl}/`} class="font-sans font-semibold text-sm tracking-tight text-zinc-900 dark:text-zinc-100">
+      staring at the ceiling
+    </a>
+  </div>
+
+  <div class="flex items-center space-x-2">
+    <ThemeToggle />
+  </div>
+</header>
+
+<script>
+  function setupHeader() {
+    const openBtn = document.getElementById('open-sidebar');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+
+    openBtn?.addEventListener('click', () => {
+      sidebar?.classList.remove('-translate-x-full');
+      backdrop?.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    });
+  }
+
+  setupHeader();
+  document.addEventListener('astro:page-load', setupHeader);
+</script>
