@@ -14,6 +14,9 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
       <h1 class="font-mono text-base font-semibold tracking-wide text-zinc-900 dark:text-zinc-100">
         Recent Notes
       </h1>
+      <p class="text-xs font-mono text-zinc-400 dark:text-zinc-500 mt-1">
+        Notes, ideas, and unhurried thoughts.
+      </p>
     </header>
 
     {sortedPosts.length > 0 ? (
@@ -30,8 +33,9 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
         ))}
       </div>
     ) : (
-      <div class="py-12 text-sm font-mono text-zinc-400 dark:text-zinc-500">
-        No notes yet.
+      <div class="py-10 text-sm font-mono text-zinc-400 dark:text-zinc-500 space-y-1.5">
+        <p>No notes published yet.</p>
+        <p class="text-xs text-zinc-400/80">Add your first post into <code class="text-xs font-mono bg-[#e4e7ec] dark:bg-[#2a303a] text-zinc-700 dark:text-zinc-300 px-1.5 py-0.5 rounded">src/content/blog/</code> to get started.</p>
       </div>
     )}
   </div>
