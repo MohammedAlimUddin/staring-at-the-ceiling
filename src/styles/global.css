@@ -49,7 +49,7 @@
   }
 }
 
-/* Sidebar collapse animations matching cp-algorithms */
+/* Sidebar and Main Layout Transitions (cp-algorithms style) */
 #sidebar {
   transition: transform 0.28s cubic-bezier(0.2, 0, 0, 1);
 }
@@ -58,12 +58,36 @@
   transition: padding-left 0.28s cubic-bezier(0.2, 0, 0, 1);
 }
 
-html.sidebar-collapsed #sidebar {
-  transform: translateX(-100%) !important;
+@media (min-width: 768px) {
+  #sidebar {
+    transform: translateX(0);
+  }
+
+  #main-wrapper {
+    padding-left: 18rem;
+  }
+
+  html.sidebar-collapsed #sidebar {
+    transform: translateX(-100%) !important;
+  }
+
+  html.sidebar-collapsed #main-wrapper {
+    padding-left: 0 !important;
+  }
 }
 
-html.sidebar-collapsed #main-wrapper {
-  padding-left: 0 !important;
+@media (max-width: 767px) {
+  #sidebar {
+    transform: translateX(-100%);
+  }
+
+  #sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  #main-wrapper {
+    padding-left: 0 !important;
+  }
 }
 
 /* Scrollbars like cp-algorithms */

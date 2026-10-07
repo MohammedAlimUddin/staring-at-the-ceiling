@@ -78,7 +78,7 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
     <Sidebar currentPath={pathname} categories={categories} posts={sidebarPosts} />
 
     <!-- Main Content Area -->
-    <div id="main-wrapper" class="md:pl-72 flex flex-col min-h-screen">
+    <div id="main-wrapper" class="flex flex-col min-h-screen">
       <main class="flex-1 max-w-4xl w-full mx-auto px-5 sm:px-8 py-8 md:py-12">
         <slot />
       </main>
@@ -87,5 +87,48 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
         <p>staring at the ceiling</p>
       </footer>
     </div>
+
+    <!-- Idempotent Sidebar Controller Script -->
+    <script is:inline>
+      function toggleSidebar() {
+        const isMobile = window.innerWidth < 768;
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+
+        if (isMobile) {
+          if (!sidebar) return;
+          const isOpen = sidebar.classList.toggle('mobile-open');
+          if (backdrop) backdrop.classList.toggle('hidden', !isOpen);
+          document.body.classList.toggle('overflow-hidden', isOpen);
+        } else {
+          const isCollapsed = document.documentElement.classList.toggle('sidebar-collapsed');
+          try {
+            localStorage.setItem('sidebar-collapsed', isCollapsed ? 'true' : 'false');
+          } catch (e) {}
+        }
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        if (sidebar) sidebar.classList.remove('mobile-open');
+        if (backdrop) backdrop.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+
+      function initSidebarEvents() {
+        const headerBtn = document.getElementById('global-sidebar-toggle');
+        const collapseBtn = document.getElementById('sidebar-collapse-btn');
+        const backdrop = document.getElementById('sidebar-backdrop');
+
+        if (headerBtn) headerBtn.onclick = toggleSidebar;
+        if (collapseBtn) collapseBtn.onclick = toggleSidebar;
+        if (backdrop) backdrop.onclick = closeMobileSidebar;
+      }
+
+      initSidebarEvents();
+      document.addEventListener('astro:after-swap', initSidebarEvents);
+      document.addEventListener('astro:page-load', initSidebarEvents);
+    </script>
   </body>
 </html>
