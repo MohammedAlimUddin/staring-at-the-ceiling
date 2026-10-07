@@ -6,8 +6,7 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title="About — staring at the ceiling" description="About staring at the ceiling.">
-  <div class="max-w-2xl space-y-10">
-    <!-- Header -->
+  <div class="max-w-2xl space-y-8">
     <header class="pb-5 border-b border-[#d8dce2] dark:border-[#333a46]">
       <h1 class="font-mono text-base font-semibold tracking-wide text-zinc-900 dark:text-zinc-100">
         About
@@ -17,109 +16,24 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
       </p>
     </header>
 
-    <!-- Narrative Section -->
-    <section class="space-y-4 text-sm sm:text-base leading-relaxed text-zinc-700 dark:text-zinc-300">
+    <div class="prose max-w-none text-sm sm:text-base leading-relaxed text-zinc-700 dark:text-zinc-300 space-y-4">
       <p>
-        This site takes its name from those quiet hours when the room goes still, the distractions fade, 
-        and you lie on your back looking upward at the blank plaster. The thoughts that surface during those 
-        moments rarely arrive with an outline—they are unhurried, personal, and honest.
+        <strong>staring at the ceiling</strong> is a personal blog and notebook for thoughts, ideas, technical notes, and things noticed along the way.
       </p>
       <p>
-        This space is a simple ledger for those thoughts, technical observations, and things noticed along the way.
+        Clean, minimalist, and distraction-free.
       </p>
-    </section>
+    </div>
 
-    <!-- Philosophy Grid -->
-    <section class="space-y-3">
-      <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-        Principles
-      </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Unfiltered
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Personal writing written directly by hand. No synthetic tone, no corporate polish.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Quiet Web
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Zero ads, zero trackers, zero algorithmic feeds. Just clean text on a page.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Plain Text
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Content lives in durable markdown files stored locally, version-controlled with Git.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Fast & Lightweight
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Static HTML with instant page loads, smooth transitions, and minimal overhead.
-          </p>
-        </div>
+    <div class="pt-6 border-t border-[#d8dce2] dark:border-[#333a46]">
+      <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 space-y-2">
+        <p>
+          Author: <span class="text-zinc-800 dark:text-zinc-200">Mohammed Alim Uddin</span>
+        </p>
+        <p>
+          Repository: <a href="https://github.com/MohammedAlimUddin/staring-at-the-ceiling" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 hover:underline">github.com/MohammedAlimUddin/staring-at-the-ceiling</a>
+        </p>
       </div>
-    </section>
-
-    <!-- Colophon / Technical Specs -->
-    <section class="space-y-3">
-      <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-        Colophon
-      </h2>
-      <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46]">
-        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-mono">
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Engine</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">Astro 5</dd>
-          </div>
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Hosting</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">GitHub Pages</dd>
-          </div>
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Styling</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">Tailwind CSS</dd>
-          </div>
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Typography</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">Inter & JetBrains Mono</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- Source Link -->
-    <section class="pt-2">
-      <div class="flex items-center space-x-4 text-xs font-mono">
-        <a
-          href="https://github.com/MohammedAlimUddin/staring-at-the-ceiling"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center space-x-1.5 text-blue-600 dark:text-blue-400 hover:underline"
-        >
-          <span>View Source on GitHub</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-        <span class="text-zinc-400">·</span>
-        <a
-          href={`${baseUrl}/`}
-          class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
-        >
-          Back to Notes
-        </a>
-      </div>
-    </section>
+    </div>
   </div>
 </BaseLayout>
