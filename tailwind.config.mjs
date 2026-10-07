@@ -6,24 +6,24 @@ export default {
     extend: {
       colors: {
         canvas: {
-          light: '#fbfbfb',
-          dark: '#0e1013'
+          light: '#f0f2f5',
+          dark: '#191c22'
         },
         surface: {
-          light: '#ffffff',
-          dark: '#14171c'
+          light: '#f8f9fb',
+          dark: '#21252d'
         },
         subtle: {
-          light: '#f0f2f5',
-          dark: '#1c2026'
+          light: '#e4e7ec',
+          dark: '#2a303a'
         },
         border: {
-          light: '#e2e6eb',
-          dark: '#242a33'
+          light: '#d8dce2',
+          dark: '#333a46'
         },
         accent: {
-          light: '#2563eb',
-          dark: '#60a5fa'
+          light: '#2754c5',
+          dark: '#5e8cf2'
         }
       },
       fontFamily: {
@@ -34,13 +34,6 @@ export default {
           '"Segoe UI"',
           'Roboto',
           'sans-serif'
-        ],
-        serif: [
-          '"Newsreader"',
-          'Georgia',
-          'Cambria',
-          '"Times New Roman"',
-          'serif'
         ],
         mono: [
           '"JetBrains Mono"',

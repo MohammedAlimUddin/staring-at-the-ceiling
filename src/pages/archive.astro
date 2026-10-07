@@ -20,49 +20,55 @@ sortedPosts.forEach((post) => {
 const years = Array.from(postsByYear.keys()).sort((a, b) => b - a);
 ---
 
-<BaseLayout title="Archive | staring at the ceiling" description="Complete chronological index of all writings.">
-  <div class="space-y-10 max-w-2xl">
-    <header class="pb-6 border-b border-zinc-200/80 dark:border-zinc-800/80">
-      <h1 class="text-3xl font-sans font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+<BaseLayout title="Archive — staring at the ceiling" description="Chronological index of all notes.">
+  <div class="space-y-8 max-w-2xl">
+    <header class="pb-5 border-b border-[#d8dce2] dark:border-[#333a46]">
+      <h1 class="font-mono text-base font-semibold tracking-wide text-zinc-900 dark:text-zinc-100">
         Archive
       </h1>
-      <p class="text-sm font-mono text-zinc-400 dark:text-zinc-500 mt-2">
-        {sortedPosts.length} {sortedPosts.length === 1 ? 'thought recorded' : 'thoughts recorded'}
+      <p class="text-xs font-mono text-zinc-400 dark:text-zinc-500 mt-1">
+        {sortedPosts.length} {sortedPosts.length === 1 ? 'note' : 'notes'}
       </p>
     </header>
 
-    <div class="space-y-12">
-      {years.map((year) => (
-        <section class="space-y-4">
-          <div class="text-lg font-mono font-semibold text-zinc-900 dark:text-zinc-100 border-b border-zinc-200 dark:border-zinc-800 pb-2 flex items-center justify-between">
-            <span>{year}</span>
-            <span class="text-xs font-normal text-zinc-400">
-              {postsByYear.get(year)?.length} entries
-            </span>
-          </div>
+    {years.length > 0 ? (
+      <div class="space-y-8">
+        {years.map((year) => (
+          <section class="space-y-3">
+            <div class="text-xs font-mono font-semibold text-zinc-900 dark:text-zinc-100 border-b border-[#d8dce2] dark:border-[#333a46] pb-1.5 flex items-center justify-between">
+              <span>{year}</span>
+              <span class="text-[11px] font-normal text-zinc-400">
+                {postsByYear.get(year)?.length}
+              </span>
+            </div>
 
-          <ul class="space-y-3">
-            {postsByYear.get(year)?.map((post) => (
-              <li class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between py-1 group">
-                <a
-                  href={`${baseUrl}/blog/${post.slug}`}
-                  class="text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
-                >
-                  {post.data.title}
-                </a>
-                <div class="flex items-center space-x-2 text-xs font-mono text-zinc-400 dark:text-zinc-500 shrink-0 mt-1 sm:mt-0">
-                  <span class="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/60 text-[10px]">
-                    {post.data.category}
-                  </span>
-                  <time datetime={post.data.pubDate.toISOString()}>
-                    {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(post.data.pubDate)}
-                  </time>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
+            <ul class="space-y-2">
+              {postsByYear.get(year)?.map((post) => (
+                <li class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between py-1 group">
+                  <a
+                    href={`${baseUrl}/blog/${post.slug}`}
+                    class="text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+                  >
+                    {post.data.title}
+                  </a>
+                  <div class="flex items-center space-x-2 text-[11px] font-mono text-zinc-400 dark:text-zinc-500 shrink-0 mt-1 sm:mt-0">
+                    <span class="px-1.5 py-0.5 rounded bg-[#e4e7ec] dark:bg-[#2a303a] text-zinc-700 dark:text-zinc-300 text-[10px]">
+                      {post.data.category}
+                    </span>
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(post.data.pubDate)}
+                    </time>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <div class="py-12 text-sm font-mono text-zinc-400 dark:text-zinc-500">
+        No notes archived yet.
+      </div>
+    )}
   </div>
 </BaseLayout>
