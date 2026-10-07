@@ -51,13 +51,12 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
 
     <ClientRouter />
 
-    <!-- Synchronous inline theme & layout check to avoid flash & preserve state across navigation -->
+    <!-- Synchronous inline theme & layout check to avoid flash & keep state across transitions -->
     <script is:inline>
       function getActiveTheme() {
         try {
-          const saved = localStorage.getItem('theme') || localStorage.getItem('color-theme');
-          if (saved) return saved;
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          return localStorage.getItem('theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         } catch (e) {
           return 'light';
         }
@@ -78,11 +77,10 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
       // Ensure theme & sidebar states are applied to incoming document BEFORE Astro swaps DOM
       document.addEventListener('astro:before-swap', (ev) => {
         try {
-          // Carry over the live DOM state directly so navigation NEVER flips theme or sidebar
-          const isDark = document.documentElement.classList.contains('dark');
+          const isDark = getActiveTheme() === 'dark';
           ev.newDocument.documentElement.classList.toggle('dark', isDark);
 
-          const isCollapsed = document.documentElement.classList.contains('sidebar-collapsed');
+          const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
           ev.newDocument.documentElement.classList.toggle('sidebar-collapsed', isCollapsed);
         } catch (e) {}
       });
@@ -106,17 +104,8 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
       </footer>
     </div>
 
-    <!-- Centralized idempotent event controller script -->
+    <!-- Idempotent Sidebar Controller Script -->
     <script is:inline>
-      function toggleTheme() {
-        const isDark = document.documentElement.classList.toggle('dark');
-        const themeStr = isDark ? 'dark' : 'light';
-        try {
-          localStorage.setItem('theme', themeStr);
-          localStorage.setItem('color-theme', themeStr);
-        } catch (e) {}
-      }
-
       function toggleSidebar() {
         const isMobile = window.innerWidth < 768;
         const sidebar = document.getElementById('sidebar');
@@ -143,13 +132,7 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
         document.body.classList.remove('overflow-hidden');
       }
 
-      function initAppControllers() {
-        // Theme toggle buttons (both header and sidebar)
-        document.querySelectorAll('.theme-toggle-btn').forEach((btn) => {
-          btn.onclick = toggleTheme;
-        });
-
-        // Sidebar toggle buttons
+      function initSidebarEvents() {
         const headerBtn = document.getElementById('global-sidebar-toggle');
         const collapseBtn = document.getElementById('sidebar-collapse-btn');
         const backdrop = document.getElementById('sidebar-backdrop');
@@ -157,18 +140,11 @@ const categories = Array.from(categoryMap.entries()).map(([name, count]) => ({ n
         if (headerBtn) headerBtn.onclick = toggleSidebar;
         if (collapseBtn) collapseBtn.onclick = toggleSidebar;
         if (backdrop) backdrop.onclick = closeMobileSidebar;
-
-        // Auto close mobile drawer on link clicks
-        if (window.innerWidth < 768) {
-          document.querySelectorAll('#sidebar a').forEach((link) => {
-            link.onclick = closeMobileSidebar;
-          });
-        }
       }
 
-      initAppControllers();
-      document.addEventListener('astro:after-swap', initAppControllers);
-      document.addEventListener('astro:page-load', initAppControllers);
+      initSidebarEvents();
+      document.addEventListener('astro:after-swap', initSidebarEvents);
+      document.addEventListener('astro:page-load', initSidebarEvents);
     </script>
   </body>
 </html>

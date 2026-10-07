@@ -218,17 +218,3 @@ audio, video {
   border-radius: 0.375rem;
   border: 1px solid var(--border-color);
 }
-
-/* Theme Toggle Icon visibility */
-html.dark .theme-icon-light {
-  display: block !important;
-}
-html.dark .theme-icon-dark {
-  display: none !important;
-}
-html:not(.dark) .theme-icon-light {
-  display: none !important;
-}
-html:not(.dark) .theme-icon-dark {
-  display: block !important;
-}
