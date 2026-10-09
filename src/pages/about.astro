@@ -1,12 +1,10 @@
 ---
 // about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title="About — staring at the ceiling" description="About staring at the ceiling.">
-  <div class="max-w-2xl space-y-10">
+  <div class="max-w-2xl space-y-8">
     <!-- Header -->
     <header class="pb-5 border-b border-[#d8dce2] dark:border-[#333a46]">
       <h1 class="font-mono text-base font-semibold tracking-wide text-zinc-900 dark:text-zinc-100">
@@ -20,106 +18,42 @@ const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
     <!-- Narrative Section -->
     <section class="space-y-4 text-sm sm:text-base leading-relaxed text-zinc-700 dark:text-zinc-300">
       <p>
-        This site takes its name from those quiet hours when the room goes still, the distractions fade, 
-        and you lie on your back looking upward at the blank plaster. The thoughts that surface during those 
-        moments rarely arrive with an outline—they are unhurried, personal, and honest.
+        I am being restless, tired then restless again. I'm being that slave of the race master, world order or whatever day by day. And it hurts. If one thing in the world that I fear is- not being me. And the world around is pushing me in that way. It's scary. And I'm scared. I know it is inevitable to escape. But least I can do is renting about it. That's why this blog exist.
       </p>
       <p>
-        This space is a simple ledger for those thoughts, technical observations, and things noticed along the way.
+        I sometimes stare at the ceiling and let my inner 'me' have a conversation with himself. Sometimes he sounds stupid, sometimes smart, sometimes he behaves like an annoying freak. But I do enjoy listening to him. But my never settling consciousness is unable to remember all that. I feel like letting them fade away is a big miss. Not for anybody else. But for me. You see, I like being nostalgic. God, I love being nostalgic. Probably one of my most favourite pastimes. People or events are great source of nostalgia. I get that and all. But probably the most chilling source of nostalgia is past version of oneself. Thinking about what I was doing at a particular day, how the day was always sends chills down my spine. Maybe I'm a bit self-centered. Maybe that's normal. I don't care.
+      </p>
+      <p>
+        So, anyway, thats why I decided to create a blog, where I will dump whatever silly thoughts I have (I decided it while staring at the ceiling, ofcourse).
+      </p>
+      <p>
+        I'll not use any in AI writing, proof reading or editing.
       </p>
     </section>
 
-    <!-- Philosophy Grid -->
-    <section class="space-y-3">
+    <!-- Quick questions -->
+    <section class="pt-6 border-t border-[#d8dce2] dark:border-[#333a46] space-y-3">
       <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-        Principles
+        Quick questions:
       </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Unfiltered
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Personal writing written directly by hand. No synthetic tone, no corporate polish.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Quiet Web
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Zero ads, zero trackers, zero algorithmic feeds. Just clean text on a page.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Plain Text
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Content lives in durable markdown files stored locally, version-controlled with Git.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46] space-y-1.5">
-          <h3 class="font-mono text-xs font-semibold text-zinc-900 dark:text-zinc-100">
-            Fast & Lightweight
-          </h3>
-          <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Static HTML with instant page loads, smooth transitions, and minimal overhead.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Colophon / Technical Specs -->
-    <section class="space-y-3">
-      <h2 class="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-        Colophon
-      </h2>
-      <div class="p-4 rounded-lg bg-[#f8f9fb] dark:bg-[#21252d] border border-[#d8dce2] dark:border-[#333a46]">
-        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-mono">
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Engine</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">Astro 5</dd>
-          </div>
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Hosting</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">GitHub Pages</dd>
-          </div>
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Styling</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">Tailwind CSS</dd>
-          </div>
-          <div class="flex justify-between border-b border-[#d8dce2]/60 dark:border-[#333a46]/60 pb-1.5">
-            <dt class="text-zinc-400 dark:text-zinc-500">Typography</dt>
-            <dd class="text-zinc-800 dark:text-zinc-200">Inter & JetBrains Mono</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <!-- Source Link -->
-    <section class="pt-2">
-      <div class="flex items-center space-x-4 text-xs font-mono">
-        <a
-          href="https://github.com/MohammedAlimUddin/staring-at-the-ceiling"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center space-x-1.5 text-blue-600 dark:text-blue-400 hover:underline"
-        >
-          <span>View Source on GitHub</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-        <span class="text-zinc-400">·</span>
-        <a
-          href={`${baseUrl}/`}
-          class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
-        >
-          Back to Notes
-        </a>
-      </div>
+      <ol class="space-y-3 text-sm sm:text-base text-zinc-700 dark:text-zinc-300">
+        <li class="space-y-1">
+          <p class="font-medium text-zinc-900 dark:text-zinc-100">1. Who are the target audience?</p>
+          <p class="text-xs sm:text-sm font-mono text-zinc-500 dark:text-zinc-400 pl-4">-&gt; Only me.</p>
+        </li>
+        <li class="space-y-1">
+          <p class="font-medium text-zinc-900 dark:text-zinc-100">2. Why putting it in the web then?</p>
+          <p class="text-xs sm:text-sm font-mono text-zinc-500 dark:text-zinc-400 pl-4">-&gt; Just in case someone is interested.</p>
+        </li>
+        <li class="space-y-1">
+          <p class="font-medium text-zinc-900 dark:text-zinc-100">3. Will I filter out what I write ?</p>
+          <p class="text-xs sm:text-sm font-mono text-zinc-500 dark:text-zinc-400 pl-4">-&gt; Maybe</p>
+        </li>
+        <li class="space-y-1">
+          <p class="font-medium text-zinc-900 dark:text-zinc-100">4. How often Will I write?</p>
+          <p class="text-xs sm:text-sm font-mono text-zinc-500 dark:text-zinc-400 pl-4">-&gt; I honestly don't know. There is a healthy chance that I will not write anything ever.</p>
+        </li>
+      </ol>
     </section>
   </div>
 </BaseLayout>
