@@ -1,0 +1,14 @@
+name: "📝 New Note"
+description: "Publish a new thought to staring at the ceiling"
+title: ""
+labels: ["Thoughts"]
+body:
+  - type: textarea
+    id: content
+    attributes:
+      label: "Your Thought"
+      description: "Write raw, unfiltered thoughts. Photos can be pasted or attached directly."
+      placeholder: "Write whatever comes to mind..."
+    validations:
+      required: true
+
