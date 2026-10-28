@@ -1,0 +1,326 @@
+---
+// src/pages/dump.astro
+import '../styles/global.css';
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
+    <title>Dump — staring at the ceiling</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-[#191c22] text-[#e2e6ed] min-h-screen flex flex-col font-sans antialiased selection:bg-blue-500/30 selection:text-white">
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-[#333a46] px-4 sm:px-8 py-3.5 flex items-center justify-between text-xs font-mono bg-[#191c22]/90 backdrop-blur sticky top-0 z-20">
+      <div class="flex items-center space-x-3">
+        <a href={`${baseUrl}/`} class="text-zinc-400 hover:text-zinc-200 transition-colors flex items-center space-x-1.5">
+          <span>&larr;</span>
+          <span>back to notes</span>
+        </a>
+        <span class="text-zinc-600">/</span>
+        <span class="text-blue-400 font-medium">dump</span>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <button
+          id="token-settings-btn"
+          type="button"
+          class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#21252d] border border-[#333a46] text-zinc-400 hover:text-zinc-200 hover:border-zinc-500 transition-colors"
+          title="Configure GitHub Token"
+        >
+          <span id="token-status-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span id="token-status-label">Setup Key</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col">
+      <!-- Token Setup Banner (shown when token is missing) -->
+      <div id="token-banner" class="hidden mb-6 p-4 rounded-lg bg-[#21252d] border border-amber-500/40 text-xs font-mono space-y-2.5">
+        <div class="flex items-center justify-between">
+          <p class="font-semibold text-amber-400 flex items-center space-x-1.5">
+            <span>🔑</span>
+            <span>One-Time Setup: Connect to your GitHub Repo</span>
+          </p>
+          <button id="close-token-banner" class="text-zinc-400 hover:text-zinc-200">&times;</button>
+        </div>
+        <p class="text-zinc-300 leading-relaxed">
+          To let you dump thoughts directly without opening GitHub, paste a GitHub Personal Access Token (PAT) with <code class="text-blue-400">repo</code> or <code class="text-blue-400">issues</code> permission. It stays stored <strong>only in this browser's localStorage</strong> on your device.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-2 pt-1">
+          <input
+            id="token-input"
+            type="password"
+            placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+            class="flex-1 px-3 py-1.5 rounded bg-[#191c22] border border-[#333a46] text-zinc-200 placeholder-zinc-500 text-xs focus:outline-none focus:border-blue-500"
+          />
+          <button
+            id="save-token-btn"
+            class="px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white font-medium transition-colors"
+          >
+            Save Token
+          </button>
+        </div>
+        <div class="pt-1 text-[11px] text-zinc-500">
+          Need a token? <a href="https://github.com/settings/tokens/new?description=Staring%20At%20The%20Ceiling%20Dump&scopes=public_repo" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Generate a token on GitHub &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Feedback / Alert Banner -->
+      <div id="alert-banner" class="hidden mb-6 p-4 rounded-lg text-xs font-mono transition-all"></div>
+
+      <!-- Editor Form -->
+      <form id="dump-form" class="flex-1 flex flex-col space-y-4">
+        <!-- Title Input -->
+        <div>
+          <label for="post-title" class="sr-only">Title</label>
+          <input
+            id="post-title"
+            type="text"
+            required
+            placeholder="Title of your thought..."
+            class="w-full text-lg sm:text-xl font-medium bg-[#21252d] border border-[#333a46] rounded-lg px-4 py-3 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors"
+          />
+        </div>
+
+        <!-- Big Content Textarea -->
+        <div class="flex-1 flex flex-col">
+          <label for="post-body" class="sr-only">Content</label>
+          <textarea
+            id="post-body"
+            required
+            placeholder="What are you thinking while staring at the ceiling? Dump it here raw..."
+            class="w-full flex-1 min-h-[360px] sm:min-h-[440px] text-sm sm:text-base leading-relaxed bg-[#21252d] border border-[#333a46] rounded-lg p-4 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition-colors resize-y font-sans"
+          ></textarea>
+        </div>
+
+        <!-- Metadata / Category Row (Optional) -->
+        <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-zinc-400 pt-1">
+          <div class="flex items-center space-x-2">
+            <span class="text-zinc-500">Category:</span>
+            <input
+              id="post-category"
+              type="text"
+              value="Thoughts"
+              class="bg-[#21252d] border border-[#333a46] rounded px-2.5 py-1 text-zinc-300 text-xs w-32 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+          <div id="draft-status" class="text-zinc-500 italic">
+            Auto-saved locally
+          </div>
+        </div>
+
+        <!-- Submit Bar -->
+        <div class="pt-3 border-t border-[#333a46] flex items-center justify-between">
+          <span class="text-xs font-mono text-zinc-500 hidden sm:inline">
+            Tip: Press <kbd class="px-1.5 py-0.5 rounded bg-[#21252d] border border-[#333a46] text-zinc-300">Ctrl+Enter</kbd> to submit
+          </span>
+
+          <button
+            id="submit-btn"
+            type="submit"
+            class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-medium tracking-wide transition-all flex items-center justify-center space-x-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span id="submit-text">Dump Thought &rarr;</span>
+            <svg id="submit-spinner" class="hidden animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <!-- Client-side Controller -->
+    <script is:inline>
+      const REPO_OWNER = 'MohammedAlimUddin';
+      const REPO_NAME = 'staring-at-the-ceiling';
+      const STORAGE_KEY_TOKEN = 'staring_dump_token';
+      const STORAGE_KEY_DRAFT_TITLE = 'staring_dump_draft_title';
+      const STORAGE_KEY_DRAFT_BODY = 'staring_dump_draft_body';
+
+      const tokenBanner = document.getElementById('token-banner');
+      const tokenInput = document.getElementById('token-input');
+      const saveTokenBtn = document.getElementById('save-token-btn');
+      const closeTokenBanner = document.getElementById('close-token-banner');
+      const tokenStatusDot = document.getElementById('token-status-dot');
+      const tokenStatusLabel = document.getElementById('token-status-label');
+      const tokenSettingsBtn = document.getElementById('token-settings-btn');
+
+      const form = document.getElementById('dump-form');
+      const titleInput = document.getElementById('post-title');
+      const bodyInput = document.getElementById('post-body');
+      const categoryInput = document.getElementById('post-category');
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const submitSpinner = document.getElementById('submit-spinner');
+      const alertBanner = document.getElementById('alert-banner');
+      const draftStatus = document.getElementById('draft-status');
+
+      function getToken() {
+        return localStorage.getItem(STORAGE_KEY_TOKEN) || '';
+      }
+
+      function updateTokenUI() {
+        const token = getToken();
+        if (token) {
+          tokenStatusDot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+          tokenStatusLabel.textContent = 'Connected';
+          tokenBanner.classList.add('hidden');
+        } else {
+          tokenStatusDot.className = 'w-2 h-2 rounded-full bg-amber-500';
+          tokenStatusLabel.textContent = 'Setup Key';
+          tokenBanner.classList.remove('hidden');
+        }
+      }
+
+      // Token management
+      saveTokenBtn.onclick = () => {
+        const val = tokenInput.value.trim();
+        if (val) {
+          localStorage.setItem(STORAGE_KEY_TOKEN, val);
+          tokenInput.value = '';
+          updateTokenUI();
+          showAlert('success', 'Token saved securely in your browser!');
+        }
+      };
+
+      tokenSettingsBtn.onclick = () => {
+        const current = getToken();
+        if (current) {
+          const action = confirm('GitHub Token is currently configured on this device.\n\nClick OK to clear/replace it, or Cancel to keep it.');
+          if (action) {
+            localStorage.removeItem(STORAGE_KEY_TOKEN);
+            updateTokenUI();
+          }
+        } else {
+          tokenBanner.classList.toggle('hidden');
+        }
+      };
+
+      if (closeTokenBanner) {
+        closeTokenBanner.onclick = () => tokenBanner.classList.add('hidden');
+      }
+
+      // Draft auto-saving
+      function loadDraft() {
+        const savedTitle = localStorage.getItem(STORAGE_KEY_DRAFT_TITLE);
+        const savedBody = localStorage.getItem(STORAGE_KEY_DRAFT_BODY);
+        if (savedTitle && !titleInput.value) titleInput.value = savedTitle;
+        if (savedBody && !bodyInput.value) bodyInput.value = savedBody;
+      }
+
+      function saveDraft() {
+        localStorage.setItem(STORAGE_KEY_DRAFT_TITLE, titleInput.value);
+        localStorage.setItem(STORAGE_KEY_DRAFT_BODY, bodyInput.value);
+        draftStatus.textContent = 'Draft saved';
+      }
+
+      titleInput.addEventListener('input', saveDraft);
+      bodyInput.addEventListener('input', saveDraft);
+
+      // Keyboard shortcut Ctrl+Enter or Cmd+Enter
+      bodyInput.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          form.requestSubmit();
+        }
+      });
+
+      function showAlert(type, message, linkUrl, linkText) {
+        alertBanner.classList.remove('hidden');
+        if (type === 'success') {
+          alertBanner.className = 'mb-6 p-4 rounded-lg text-xs font-mono bg-emerald-950/60 border border-emerald-500/50 text-emerald-200';
+        } else {
+          alertBanner.className = 'mb-6 p-4 rounded-lg text-xs font-mono bg-rose-950/60 border border-rose-500/50 text-rose-200';
+        }
+
+        let html = `<div>${message}</div>`;
+        if (linkUrl) {
+          html += `<div class="mt-2"><a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="underline text-blue-400 hover:text-blue-300">${linkText || linkUrl}</a></div>`;
+        }
+        alertBanner.innerHTML = html;
+      }
+
+      // Submit handler
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+
+        const token = getToken();
+        if (!token) {
+          tokenBanner.classList.remove('hidden');
+          tokenInput.focus();
+          showAlert('error', 'Please provide your GitHub Personal Access Token above first.');
+          return;
+        }
+
+        const title = titleInput.value.trim();
+        const body = bodyInput.value.trim();
+        const category = (categoryInput.value || 'Thoughts').trim();
+
+        if (!title || !body) return;
+
+        submitBtn.disabled = true;
+        submitText.textContent = 'Dumping...';
+        submitSpinner.classList.remove('hidden');
+        alertBanner.classList.add('hidden');
+
+        try {
+          const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              title: title,
+              body: body,
+              labels: [category]
+            })
+          });
+
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || `GitHub API error: ${res.status}`);
+          }
+
+          const issue = await res.json();
+
+          // Clear form and drafts
+          titleInput.value = '';
+          bodyInput.value = '';
+          localStorage.removeItem(STORAGE_KEY_DRAFT_TITLE);
+          localStorage.removeItem(STORAGE_KEY_DRAFT_BODY);
+          draftStatus.textContent = 'Published';
+
+          showAlert(
+            'success',
+            `🎉 Thought dumped successfully! Issue #${issue.number} created. The GitHub Actions workflow is now building and deploying your post live.`,
+            issue.html_url,
+            'View on GitHub Issues &rarr;'
+          );
+
+        } catch (err) {
+          console.error(err);
+          showAlert('error', `Failed to dump thought: ${err.message}. Check that your token has 'repo' or 'issues' permission.`);
+        } finally {
+          submitBtn.disabled = false;
+          submitText.textContent = 'Dump Thought →';
+          submitSpinner.classList.add('hidden');
+        }
+      };
+
+      // Initial state
+      updateTokenUI();
+      loadDraft();
+    </script>
+  </body>
+</html>
